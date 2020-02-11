@@ -1,6 +1,8 @@
 # Assignment 5
 
 
+```
+
 sqlite> select * from drugdeath LIMIT 10;
 ID          Date        DataType    Age         Sex         Race
 ----------  ----------  ----------  ----------  ----------  ----------
@@ -14,3 +16,4 @@ ID          Date        DataType    Age         Sex         Race
 13-0404                             40          Female
 12-0107                             40          Male
 13-0161                             50          Male
+```
