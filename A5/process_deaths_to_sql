@@ -1,0 +1,76 @@
+"""
+MOving data from CSV into SQlite db.
+When : Feb 3rd 2020
+Who : Ujjwal Bhattarai 
+"""
+
+import csv 
+import sqlite3
+
+DB_FILE = 'drug_deaths.db'
+conn = sqlite3.connect(DB_FILE)
+
+
+def create_drug_death_table():
+    '''
+    This method will be creating the sightings table it does not exist.
+    '''
+    cur = conn.cursor()
+    str_sql = """
+        CREATE TABLE if not exists drugdeath (
+            ID integer primery key, 
+            Date datetime char(50), 
+            DataType char(50), 
+            Age int, 
+            Sex char(50), 
+            Race char(50)
+        );
+        """
+    cur.execute(str_sql)
+    conn.commit()
+    
+
+def open_csv_insert_into_db():
+    cur=conn.cursor()
+    row_count= 0
+
+    with open('Accidental_Drug_Related_Deaths_2012-2018.csv', 'r') as csvfile:
+        # use the csv,DictReader method to convert to reader object
+        reader = csv.DictReader(csvfile)
+
+        # loop over the reader object 
+        for drugdeath_row_dic in reader:
+            row_count += 1
+
+            t_ID= drugdeath_row_dic["ID"]
+            t_Age= drugdeath_row_dic["Age"]
+            t_Sex = drugdeath_row_dic["Sex"]
+          
+ 
+            sql_str_insert_with_param = """
+                INSERT INTO drugdeath
+                    (ID, Age, Sex)
+                VALUES
+                    (?, ?, ?) 
+                """
+
+            data_tuple= (t_ID, t_Age, t_Sex)
+            cur.execute(sql_str_insert_with_param, data_tuple)
+            conn.commit( )
+
+
+            if row_count <=10 :
+                 print('{0:>7} ID: {1:<20} Age:{2:<15} Sex: {2:<15}'.format(
+                    row_count, t_ID, t_Age, t_Sex))
+
+    cur.close()
+
+def main():
+    create_drug_death_table()
+    open_csv_insert_into_db()
+    #open csv file as that can be ref from csv_fi
+
+    conn.close()
+
+if __name__=="__main__":
+     main()
