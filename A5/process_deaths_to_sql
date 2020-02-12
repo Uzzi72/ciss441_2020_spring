@@ -1,14 +1,14 @@
 """
 MOving data from CSV into SQlite db.
-When : Feb 3rd 2020
+When : Feb 10th 2020
 Who : Ujjwal Bhattarai 
 """
 
-import csv 
-import sqlite3
+import csv              #import csv python module 
+import sqlite3          #import sqlite3 module 
 
-DB_FILE = 'drug_deaths.db'
-conn = sqlite3.connect(DB_FILE)
+DB_FILE = 'drug_deaths.db'      #create database file 
+conn = sqlite3.connect(DB_FILE) #conncet to database file 
 
 
 def create_drug_death_table():
@@ -70,7 +70,8 @@ def main():
     open_csv_insert_into_db()
     #open csv file as that can be ref from csv_fi
 
-    conn.close()
+    conn.close()         #close connection to database
 
 if __name__=="__main__":
-     main()
+     main()                     #call the main method 
+
